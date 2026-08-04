@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Alarme Premium</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f4f4;
+      padding: 50px;
+    }
+    h1 { color: red; }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #pagamento {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      border: 2px solid #ccc;
+      background: #fff;
+      width: 350px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    input {
+      width: 90%;
+      padding: 8px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .cartoes {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .cartoes img {
+      width: 50px;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>🚨 Alarme Premium 🚨</h1>
+  <button onclick="startAlarm()">Iniciar Alarme</button>
+  <button onclick="showPayment()">Parar Alarme</button>
+  <p id="mensagem"></p>
+
+  <audio id="alarme" loop>
+    <source src="https://www.soundjay.com/misc/siren-01.wav" type="audio/wav">
+    Seu navegador não suporta áudio.
+  </audio>
+
+  <div id="pagamento">
+    <h2>💳 Checkout Fictício</h2>
+    <p>Para desligar o alarme, insira seus dados de pagamento:</p>
+    <div class="cartoes">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/American_Express_logo_%282018%29.svg" alt="Amex">
+    </div>
+    <input type="text" placeholder="Número do cartão"><br>
+    <input type="text" placeholder="Nome no cartão"><br>
+    <input type="text" placeholder="Validade (MM/AA)"><br>
+    <input type="text" placeholder="CVV"><br>
+    <button onclick="fakePay()">Pagar & Desligar</button>
+  </div>
+
+  <script>
+    function startAlarm() {
+      const alarme = document.getElementById("alarme");
+      alarme.play().then(() => {
+        document.getElementById("mensagem").innerText = "O alarme está tocando sem parar!";
+      }).catch(err => {
+        document.getElementById("mensagem").innerText = "⚠️ Clique novamente para liberar o som (bloqueio do navegador).";
+        console.error("Erro ao tocar áudio:", err);
+      });
+    }
+
+    function showPayment() {
+      document.getElementById("pagamento").style.display = "block";
+      document.getElementById("mensagem").innerText = "⚠️ Para desligar, complete o pagamento fictício!";
+    }
+
+    function fakePay() {
+      const alarme = document.getElementById("alarme");
+      alarme.pause();
+      alarme.currentTime = 0;
+      document.getElementById("mensagem").innerText = "✅ Pagamento fictício realizado. O alarme foi desligado!";
+      document.getElementById("pagamento").style.display = "none";
+    }
+  </script>
+</body>
+</html>
