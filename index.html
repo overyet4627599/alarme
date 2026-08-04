@@ -10,7 +10,9 @@
       background: #f4f4f4;
       padding: 50px;
     }
-    h1 { color: red; }
+    h1 {
+      color: red;
+    }
     button {
       padding: 10px 20px;
       margin: 10px;
@@ -55,7 +57,7 @@
   <p id="mensagem"></p>
 
   <audio id="alarme" loop>
-    <source src="https://www.soundjay.com/misc/siren-01.wav" type="audio/wav">
+    <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/wav">
     Seu navegador não suporta áudio.
   </audio>
 
@@ -76,13 +78,8 @@
 
   <script>
     function startAlarm() {
-      const alarme = document.getElementById("alarme");
-      alarme.play().then(() => {
-        document.getElementById("mensagem").innerText = "O alarme está tocando sem parar!";
-      }).catch(err => {
-        document.getElementById("mensagem").innerText = "⚠️ Clique novamente para liberar o som (bloqueio do navegador).";
-        console.error("Erro ao tocar áudio:", err);
-      });
+      document.getElementById("alarme").play();
+      document.getElementById("mensagem").innerText = "O alarme está tocando sem parar!";
     }
 
     function showPayment() {
@@ -91,9 +88,8 @@
     }
 
     function fakePay() {
-      const alarme = document.getElementById("alarme");
-      alarme.pause();
-      alarme.currentTime = 0;
+      document.getElementById("alarme").pause();
+      document.getElementById("alarme").currentTime = 0;
       document.getElementById("mensagem").innerText = "✅ Pagamento fictício realizado. O alarme foi desligado!";
       document.getElementById("pagamento").style.display = "none";
     }
