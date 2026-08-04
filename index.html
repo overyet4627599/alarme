@@ -1,98 +1,188 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Alarme Premium</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background: #f4f4f4;
-      padding: 50px;
-    }
-    h1 {
-      color: red;
-    }
-    button {
-      padding: 10px 20px;
-      margin: 10px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    #pagamento {
-      display: none;
-      margin-top: 20px;
-      padding: 20px;
-      border: 2px solid #ccc;
-      background: #fff;
-      width: 350px;
-      margin-left: auto;
-      margin-right: auto;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    input {
-      width: 90%;
-      padding: 8px;
-      margin: 5px 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    .cartoes {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    .cartoes img {
-      width: 50px;
-      height: auto;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🚨 Alarme Premium</title>
+
+<style>
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f4f4;
+    text-align:center;
+    padding:50px;
+}
+
+h1{
+    color:#d50000;
+}
+
+button{
+    padding:12px 24px;
+    margin:10px;
+    font-size:17px;
+    cursor:pointer;
+    border:none;
+    border-radius:8px;
+    background:#d50000;
+    color:white;
+    transition:.2s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+#pagamento{
+    display:none;
+    margin:25px auto;
+    width:350px;
+    background:white;
+    border-radius:10px;
+    padding:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,.2);
+}
+
+input{
+    width:90%;
+    padding:10px;
+    margin:6px 0;
+    border-radius:5px;
+    border:1px solid #ccc;
+}
+
+.cartoes{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    margin:15px;
+}
+
+.cartoes img{
+    width:50px;
+}
+</style>
+
 </head>
 <body>
-  <h1>🚨 Alarme Premium 🚨</h1>
-  <button onclick="startAlarm()">Iniciar Alarme</button>
-  <button onclick="showPayment()">Parar Alarme</button>
-  <p id="mensagem"></p>
 
-  <audio id="alarme" loop>
-    <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/wav">
-    Seu navegador não suporta áudio.
-  </audio>
+<h1>🚨 Alarme Premium 🚨</h1>
 
-  <div id="pagamento">
-    <h2>💳 Checkout Fictício</h2>
-    <p>Para desligar o alarme, insira seus dados de pagamento:</p>
-    <div class="cartoes">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/American_Express_logo_%282018%29.svg" alt="Amex">
-    </div>
-    <input type="text" placeholder="Número do cartão"><br>
-    <input type="text" placeholder="Nome no cartão"><br>
-    <input type="text" placeholder="Validade (MM/AA)"><br>
-    <input type="text" placeholder="CVV"><br>
-    <button onclick="fakePay()">Pagar & Desligar</button>
-  </div>
+<button onclick="startAlarm()">Iniciar Alarme</button>
+<button onclick="showPayment()">Parar Alarme</button>
 
-  <script>
-    function startAlarm() {
-      document.getElementById("alarme").play();
-      document.getElementById("mensagem").innerText = "O alarme está tocando sem parar!";
+<p id="mensagem"></p>
+
+<div id="pagamento">
+
+<h2>💳 Checkout Fictício</h2>
+
+<p>Complete o pagamento fictício para desligar o alarme.</p>
+
+<div class="cartoes">
+<img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg">
+<img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg">
+<img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/American_Express_logo_%282018%29.svg">
+</div>
+
+<input placeholder="Número do cartão">
+<input placeholder="Nome no cartão">
+<input placeholder="Validade">
+<input placeholder="CVV">
+
+<br><br>
+
+<button onclick="fakePay()">Pagar e Desligar</button>
+
+</div>
+
+<script>
+
+let audioContext;
+let oscillator;
+let gainNode;
+let intervalo;
+
+function startAlarm(){
+
+    if(audioContext){
+        return;
     }
 
-    function showPayment() {
-      document.getElementById("pagamento").style.display = "block";
-      document.getElementById("mensagem").innerText = "⚠️ Para desligar, complete o pagamento fictício!";
+    audioContext = new(window.AudioContext || window.webkitAudioContext)();
+
+    oscillator = audioContext.createOscillator();
+    gainNode = audioContext.createGain();
+
+    oscillator.type = "sawtooth";
+    oscillator.frequency.value = 700;
+
+    gainNode.gain.value = 0.25;
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.start();
+
+    let subir = true;
+
+    intervalo = setInterval(()=>{
+
+        if(subir){
+            oscillator.frequency.setValueAtTime(1300,audioContext.currentTime);
+        }else{
+            oscillator.frequency.setValueAtTime(700,audioContext.currentTime);
+        }
+
+        subir = !subir;
+
+    },250);
+
+    document.getElementById("mensagem").innerHTML =
+    "<b>🚨 O ALARME ESTÁ TOCANDO!</b>";
+
+}
+
+function showPayment(){
+
+    document.getElementById("pagamento").style.display="block";
+
+    document.getElementById("mensagem").innerHTML =
+    "⚠️ Para desligar o alarme complete o pagamento fictício.";
+
+}
+
+function fakePay(){
+
+    if(intervalo){
+        clearInterval(intervalo);
     }
 
-    function fakePay() {
-      document.getElementById("alarme").pause();
-      document.getElementById("alarme").currentTime = 0;
-      document.getElementById("mensagem").innerText = "✅ Pagamento fictício realizado. O alarme foi desligado!";
-      document.getElementById("pagamento").style.display = "none";
+    if(oscillator){
+        oscillator.stop();
+        oscillator.disconnect();
     }
-  </script>
+
+    if(gainNode){
+        gainNode.disconnect();
+    }
+
+    if(audioContext){
+        audioContext.close();
+    }
+
+    oscillator = null;
+    gainNode = null;
+    audioContext = null;
+
+    document.getElementById("pagamento").style.display="none";
+
+    document.getElementById("mensagem").innerHTML =
+    "✅ Pagamento fictício realizado. Alarme desligado.";
+
+}
+
+</script>
+
 </body>
 </html>
