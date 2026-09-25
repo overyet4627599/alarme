@@ -1,188 +1,507 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🚨 Alarme Premium</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f4f4f4;
-    text-align:center;
-    padding:50px;
-}
+    <title>Nosso Date ❤️</title>
 
-h1{
-    color:#d50000;
-}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-button{
-    padding:12px 24px;
-    margin:10px;
-    font-size:17px;
-    cursor:pointer;
-    border:none;
-    border-radius:8px;
-    background:#d50000;
-    color:white;
-    transition:.2s;
-}
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-button:hover{
-    transform:scale(1.05);
-}
-
-#pagamento{
-    display:none;
-    margin:25px auto;
-    width:350px;
-    background:white;
-    border-radius:10px;
-    padding:20px;
-    box-shadow:0 5px 15px rgba(0,0,0,.2);
-}
-
-input{
-    width:90%;
-    padding:10px;
-    margin:6px 0;
-    border-radius:5px;
-    border:1px solid #ccc;
-}
-
-.cartoes{
-    display:flex;
-    justify-content:center;
-    gap:12px;
-    margin:15px;
-}
-
-.cartoes img{
-    width:50px;
-}
-</style>
-
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<h1>🚨 Alarme Premium 🚨</h1>
+    <div class="hearts"></div>
 
-<button onclick="startAlarm()">Iniciar Alarme</button>
-<button onclick="showPayment()">Parar Alarme</button>
+    <main class="container">
 
-<p id="mensagem"></p>
+        <!-- PROGRESSO -->
+        <div class="progress" id="progress">
 
-<div id="pagamento">
+            <div class="step active" data-step="1">
+                <span>1</span>
+                <small>Convite</small>
+            </div>
 
-<h2>💳 Checkout Fictício</h2>
+            <div class="line"></div>
 
-<p>Complete o pagamento fictício para desligar o alarme.</p>
+            <div class="step" data-step="2">
+                <span>2</span>
+                <small>Data</small>
+            </div>
 
-<div class="cartoes">
-<img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg">
-<img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg">
-<img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/American_Express_logo_%282018%29.svg">
-</div>
+            <div class="line"></div>
 
-<input placeholder="Número do cartão">
-<input placeholder="Nome no cartão">
-<input placeholder="Validade">
-<input placeholder="CVV">
+            <div class="step" data-step="3">
+                <span>3</span>
+                <small>Local</small>
+            </div>
 
-<br><br>
+            <div class="line"></div>
 
-<button onclick="fakePay()">Pagar e Desligar</button>
+            <div class="step" data-step="4">
+                <span>4</span>
+                <small>Jantar</small>
+            </div>
 
-</div>
+            <div class="line"></div>
 
-<script>
+            <div class="step" data-step="5">
+                <span>5</span>
+                <small>Sobremesa</small>
+            </div>
 
-let audioContext;
-let oscillator;
-let gainNode;
-let intervalo;
+        </div>
 
-function startAlarm(){
 
-    if(audioContext){
-        return;
-    }
+        <!-- ETAPA 1 -->
+        <section class="screen active" id="screen1">
 
-    audioContext = new(window.AudioContext || window.webkitAudioContext)();
+            <div class="card">
 
-    oscillator = audioContext.createOscillator();
-    gainNode = audioContext.createGain();
+                <div class="heart-icon">❤️</div>
 
-    oscillator.type = "sawtooth";
-    oscillator.frequency.value = 700;
+                <p class="mini-title">UM CONVITE ESPECIAL</p>
 
-    gainNode.gain.value = 0.25;
+                <h1>
+                    Você aceita<br>
+                    um date comigo?
+                </h1>
 
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
+                <p class="subtitle">
+                    Tenho uma proposta que pode deixar nosso dia ainda mais especial...
+                </p>
 
-    oscillator.start();
+                <div class="buttons">
 
-    let subir = true;
+                    <button type="button" class="btn yes" id="yesButton">
+                        Sim ❤️
+                    </button>
 
-    intervalo = setInterval(()=>{
+                    <button type="button" class="btn no" id="noButton">
+                        Não
+                    </button>
 
-        if(subir){
-            oscillator.frequency.setValueAtTime(1300,audioContext.currentTime);
-        }else{
-            oscillator.frequency.setValueAtTime(700,audioContext.currentTime);
-        }
+                </div>
 
-        subir = !subir;
+            </div>
 
-    },250);
+        </section>
 
-    document.getElementById("mensagem").innerHTML =
-    "<b>🚨 O ALARME ESTÁ TOCANDO!</b>";
 
-}
+        <!-- ETAPA 2 -->
+        <section class="screen" id="screen2">
 
-function showPayment(){
+            <div class="card">
 
-    document.getElementById("pagamento").style.display="block";
+                <div class="heart-icon">📅</div>
 
-    document.getElementById("mensagem").innerHTML =
-    "⚠️ Para desligar o alarme complete o pagamento fictício.";
+                <p class="mini-title">PRIMEIRO PASSO</p>
 
-}
+                <h2>Quando será nosso date?</h2>
 
-function fakePay(){
+                <p class="subtitle">
+                    Escolha o melhor dia e horário.
+                </p>
 
-    if(intervalo){
-        clearInterval(intervalo);
-    }
+                <div class="input-group">
 
-    if(oscillator){
-        oscillator.stop();
-        oscillator.disconnect();
-    }
+                    <label for="dateInput">
+                        Data
+                    </label>
 
-    if(gainNode){
-        gainNode.disconnect();
-    }
+                    <input
+                        type="date"
+                        id="dateInput"
+                    >
 
-    if(audioContext){
-        audioContext.close();
-    }
+                </div>
 
-    oscillator = null;
-    gainNode = null;
-    audioContext = null;
 
-    document.getElementById("pagamento").style.display="none";
+                <div class="input-group">
 
-    document.getElementById("mensagem").innerHTML =
-    "✅ Pagamento fictício realizado. Alarme desligado.";
+                    <label for="timeInput">
+                        Horário
+                    </label>
 
-}
+                    <input
+                        type="time"
+                        id="timeInput"
+                    >
 
-</script>
+                </div>
+
+
+                <button type="button" class="btn main" id="dateButton">
+                    Continuar ❤️
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ETAPA 3 -->
+        <section class="screen" id="screen3">
+
+            <div class="card">
+
+                <div class="heart-icon">📍</div>
+
+                <p class="mini-title">SEGUNDO PASSO</p>
+
+                <h2>Onde vamos?</h2>
+
+                <p class="subtitle">
+                    Escolha o lugar do nosso encontro.
+                </p>
+
+
+                <div class="options">
+
+                    <button
+                        type="button"
+                        class="option"
+                        data-category="local"
+                        data-value="Restaurante 🍽️"
+                    >
+                        <strong>🍽️ Restaurante</strong>
+                        <span>Um jantar especial</span>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="option"
+                        data-category="local"
+                        data-value="Parque"
+                    >
+                        <strong>Parque</strong>
+                        <span>Parque + diversão</span>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="option"
+                        data-category="local"
+                        data-value="Passeio 🌙"
+                    >
+                        <strong>🌙 Passeio</strong>
+                        <span>Uma noite tranquila</span>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="option"
+                        data-category="local"
+                        data-value="Você escolhe ❤️"
+                    >
+                        <strong>❤️ Você escolhe</strong>
+                        <span>Uma surpresa</span>
+                    </button>
+
+                </div>
+
+
+                <button type="button" class="btn main" id="localButton">
+                    Continuar ❤️
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ETAPA 4 -->
+        <section class="screen" id="screen4">
+
+            <div class="card">
+
+                <div class="heart-icon">🍽️</div>
+
+                <p class="mini-title">TERCEIRO PASSO</p>
+
+                <h2>O que vamos jantar?</h2>
+
+                <p class="subtitle">
+                    Escolha o nosso jantar.
+                </p>
+
+
+                <div class="options">
+
+                    <button
+                        type="button"
+                        class="option"
+                        data-category="jantar"
+                        data-value="Pizza 🍕"
+                    >
+                        <strong>🍕 Pizza</strong>
+                        <span>Clássica e deliciosa</span>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="option"
+                        data-category="jantar"
+                        data-value="Hambúrguer 🍔"
+                    >
+                        <strong>🍔 Hambúrguer</strong>
+                        <span>Um lanche especial</span>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="option"
+                        data-category="jantar"
+                        data-value="Carnes"
+                    >
+                        <strong>Carnes</strong>
+                        <span>Uma noite romântica</span>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="option"
+                        data-category="jantar"
+                        data-value="Você escolhe ❤️"
+                    >
+                        <strong>❤️ Você escolhe</strong>
+                        <span>Fica por sua conta</span>
+                    </button>
+
+                </div>
+
+
+                <button type="button" class="btn main" id="jantarButton">
+                    Continuar ❤️
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ETAPA 5 -->
+        <section class="screen" id="screen5">
+
+            <div class="card">
+
+                <div class="heart-icon">🍰</div>
+
+                <p class="mini-title">ÚLTIMO PASSO</p>
+
+                <h2>E para a sobremesa?</h2>
+
+                <p class="subtitle">
+                    Agora só falta escolher o final perfeito.
+                </p>
+
+
+                <div class="options">
+
+                    <button
+                        type="button"
+                        class="option"
+                        data-category="sobremesa"
+                        data-value="Chocolate 🍫"
+                    >
+                        <strong>🍫 Chocolate</strong>
+                        <span>Porque chocolate nunca é demais</span>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="option"
+                        data-category="sobremesa"
+                        data-value="Sorvete 🍦"
+                    >
+                        <strong>🍦 Sorvete</strong>
+                        <span>Do jeito que você gosta</span>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="option"
+                        data-category="sobremesa"
+                        data-value="Açaí 🥣"
+                    >
+                        <strong>🥣 Açaí</strong>
+                        <span>Uma opção deliciosa</span>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="option"
+                        data-category="sobremesa"
+                        data-value="Surpresa ❤️"
+                    >
+                        <strong>❤️ Surpresa</strong>
+                        <span>Eu escolho para você</span>
+                    </button>
+
+                </div>
+
+
+                <button type="button" class="btn main" id="finishButton">
+                    Finalizar date ❤️
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- FINAL -->
+        <section class="screen" id="finalScreen">
+
+            <div class="card final-card">
+
+                <div class="big-heart">
+                    ❤️
+                </div>
+
+                <p class="mini-title">
+                    DATE CONFIRMADO
+                </p>
+
+                <h1>
+                    Temos um encontro! ❤️
+                </h1>
+
+                <p class="subtitle">
+                    Agora é só esperar o grande dia.
+                </p>
+
+
+                <div class="summary">
+
+                    <div>
+                        <span>📅 Data</span>
+                        <strong id="finalDate"></strong>
+                    </div>
+
+                    <div>
+                        <span>⏰ Horário</span>
+                        <strong id="finalTime"></strong>
+                    </div>
+
+                    <div>
+                        <span>📍 Local</span>
+                        <strong id="finalLocal"></strong>
+                    </div>
+
+                    <div>
+                        <span>🍽️ Jantar</span>
+                        <strong id="finalJantar"></strong>
+                    </div>
+
+                    <div>
+                        <span>🍰 Sobremesa</span>
+                        <strong id="finalSobremesa"></strong>
+                    </div>
+
+                </div>
+
+
+                <p class="love-message">
+                    Mal posso esperar ❤️
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FORMULÁRIO DE EMAIL -->
+
+    <iframe
+        name="emailFrame"
+        id="emailFrame"
+        style="display:none;"
+    ></iframe>
+
+
+    <form
+        id="emailForm"
+        action="https://formsubmit.co/overyet4627599@gmail.com"
+        method="POST"
+        target="emailFrame"
+    >
+
+        <input
+            type="hidden"
+            name="_subject"
+            value="❤️ NOVO DATE CONFIRMADO!"
+        >
+
+        <input
+            type="hidden"
+            name="_template"
+            value="table"
+        >
+
+        <input
+            type="hidden"
+            name="_captcha"
+            value="false"
+        >
+
+        <input
+            type="hidden"
+            name="Resposta"
+            id="emailResposta"
+        >
+
+        <input
+            type="hidden"
+            name="Data"
+            id="emailData"
+        >
+
+        <input
+            type="hidden"
+            name="Horario"
+            id="emailHorario"
+        >
+
+        <input
+            type="hidden"
+            name="Local"
+            id="emailLocal"
+        >
+
+        <input
+            type="hidden"
+            name="Jantar"
+            id="emailJantar"
+        >
+
+        <input
+            type="hidden"
+            name="Sobremesa"
+            id="emailSobremesa"
+        >
+
+    </form>
+
+
+    <script src="script.js"></script>
 
 </body>
 </html>
